@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView } from 'react-native';
 import Task from './components/Task';
 import { useState } from 'react';
 
@@ -19,11 +19,11 @@ export default function App() {
     <View style={styles.container}>
       <View style={styles.tasksWrapper}>
         <Text style = {styles.sectionTittle}>Lista de la compra</Text>
-        <View style = {styles.tasks}>
+        <ScrollView style = {styles.tasks}>
           {taskArr.map((task, index) => (
             <Task key={index} text={task} />
           ))}
-        </View>
+        </ScrollView>
         <View style = {styles.addItem}>
           <TextInput
             style={styles.input}
@@ -42,7 +42,10 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#E8EAED',
+    backgroundColor: '#F5F5F5',
+    paddingHorizontal: 20,
+    paddingTop: 40,
+    alignItems: 'center',
   },
   tasksWrapper: {
     paddingTop: 80,
