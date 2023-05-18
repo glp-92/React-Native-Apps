@@ -9,7 +9,7 @@
 6. Main code is placed on `App.js`
 
 ## About React Native
-- Like React, components can be created to make them reusable.
+- React-native, like React, is based on components to promote reusability.
     - Props can be passed to componentes like `<Component text = "test"/>` and accesed by `{props.text}`
-- `View` can be `divs` on React, and they must be imported from `react-native`
+- [Components and apis](https://reactnative.dev/docs/components-and-apis)
 - Styles are created by using `Stylesheet` and must be imported from `react-native` too
