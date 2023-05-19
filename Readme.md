@@ -13,3 +13,6 @@
     - Props can be passed to componentes like `<Component text = "test"/>` and accesed by `{props.text}`
 - [Components and apis](https://reactnative.dev/docs/components-and-apis)
 - Styles are created by using `Stylesheet` and must be imported from `react-native` too
+
+## Packages
+- Icons library `npm install react-icons --save`

@@ -1,7 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView, Linking } from 'react-native';
 import Task from './components/Task';
 import { useState } from 'react';
+import { BiMessageSquareAdd } from 'react-icons/bi';
+import { BsFillCalendar2Fill } from 'react-icons/bs';
+import { AiFillGithub } from 'react-icons/ai';
+
 
 export default function App() {
 
@@ -15,13 +19,19 @@ export default function App() {
     }
   }
 
+  const deleteTaskFromList = (index) => {
+    const updatedTasks = [...taskArr];
+    updatedTasks.splice(index, 1);
+    setTaskArr(updatedTasks);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.tasksWrapper}>
-        <Text style = {styles.sectionTittle}>Lista de la compra</Text>
+        <BsFillCalendar2Fill style = {styles.calendarIcon}/>
         <ScrollView style = {styles.tasks}>
           {taskArr.map((task, index) => (
-            <Task key={index} text={task} />
+            <Task key={index} text={task} deleteTask={() => deleteTaskFromList(index)}/>
           ))}
         </ScrollView>
         <View style = {styles.addItem}>
@@ -29,9 +39,10 @@ export default function App() {
             style={styles.input}
             onChangeText={setInputTask}
             value={inputTask}
+            maxLength={20}
           />
           <TouchableOpacity style = {styles.addButton} title="Añadir" onPress={addTaskToList}>
-            <Text style={styles.addButtonText}>Add Task</Text>
+            <BiMessageSquareAdd style = {styles.addIcon}/>
           </TouchableOpacity>
         </View>
       </View>
@@ -42,43 +53,62 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5F5F5',
+    backgroundColor: 'rgba(220, 220, 255, 0.5)',
     paddingHorizontal: 20,
     paddingTop: 40,
     alignItems: 'center',
   },
   tasksWrapper: {
-    paddingTop: 80,
-    paddingHorizontal: 20
+    backgroundColor: 'rgba(178, 218, 250, 0.5)',
+    borderRadius: 10,
+    paddingTop: 20,
+    paddingHorizontal: 20,
+    flex: 1,
+    width: '80%',
   },
-  sectionTittle: {
-    fontSize: 24,
-    fontWeight: 'bold'
+  calendarIcon: {
+    alignSelf: 'center',
+    fontSize: 50,
+    color: '#1A237E',
+    marginBottom: 16,
+    textAlign: 'center',
+    textTransform: 'uppercase',
+    opacity: 0.7,
   },
   tasks: {
-
+    marginBottom: 16,
   },
   input: {
-    height: 40,
-    marginLeft: 12,
-    borderWidth: 1,
+    width: '80%',
+    height: 50,
+    marginRight: 10,
     padding: 10,
-    borderTopLeftRadius: 5,  // Redondear la esquina superior izquierda
-    borderBottomLeftRadius: 5,
+    borderRadius: 10,
+    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+    color: '#1A237E',
   },
   addButton: {
-    height: 40,
-    marginRight: 12,
-    borderWidth: 1,
-    padding: 10,
-    borderTopRightRadius: 5,  // Redondear la esquina superior izquierda
-    borderBottomRightRadius: 5,
+    width: '20%',
+    height: 50,
+    paddingHorizontal: 10,
+    borderRadius: 10,
+    borderColor: '#64B5F6',
+    backgroundColor: 'rgba(100, 181, 246, 0.2)',
+    color: '#1A237E',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  addButtonText: {
-
+  addIcon: {
+    color: 'rgba(30, 30, 255, 0.8)',
+    opacity: 0.8,
   },
-  addItem :{
-    flexDirection:'row',
-    alignItems:'center',
+  addItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(200, 200, 255, 0.5)',
+    borderRadius: 10,
+    padding: 5,
+    marginBottom: 10,
   },
 });
+
