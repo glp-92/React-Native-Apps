@@ -16,3 +16,4 @@
 
 ## Packages
 - Icons library `npm install react-icons --save`
+- Async storage to small key value storage `npm install @react-native-async-storage/async-storage`

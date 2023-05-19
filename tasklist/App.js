@@ -1,20 +1,51 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView, Linking } from 'react-native';
-import Task from './components/Task';
-import { useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useState, useEffect } from 'react';
 import { BiMessageSquareAdd } from 'react-icons/bi';
 import { BsFillCalendar2Fill } from 'react-icons/bs';
 import { AiFillGithub } from 'react-icons/ai';
 
+import Task from './components/Task';
+
+
+const saveTaskArr = async (list) => {
+  try {
+    // Convierte el array de strings en formato JSON antes de almacenarlo
+    const jsonList = JSON.stringify(list);
+    await AsyncStorage.setItem('taskAPPList', jsonList);
+    console.log('Lista guardada exitosamente');
+  } catch (error) {
+    console.log('Error al guardar la lista:', error);
+  }
+};
+
 
 export default function App() {
-
   const [inputTask, setInputTask] = useState("");
   const [taskArr, setTaskArr] = useState([]);
 
+  const fetchStoredList = async () => {
+    try {
+      const storedList = await AsyncStorage.getItem('taskAPPList');
+      if (storedList !== null) {
+        const parsedList = JSON.parse(storedList);
+        setTaskArr(parsedList);
+      }
+    } catch (error) {
+      console.log('Error al obtener la lista:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchStoredList();
+  }, []);
+
   const addTaskToList = () => {
     if ((inputTask) != "") {
-      setTaskArr([...taskArr, inputTask]);
+      const updatedTasks = [...taskArr, inputTask]
+      setTaskArr(updatedTasks);
+      saveTaskArr(updatedTasks);
       setInputTask("");
     }
   }
@@ -23,6 +54,7 @@ export default function App() {
     const updatedTasks = [...taskArr];
     updatedTasks.splice(index, 1);
     setTaskArr(updatedTasks);
+    saveTaskArr(updatedTasks);
   };
 
   return (
