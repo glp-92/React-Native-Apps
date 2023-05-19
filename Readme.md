@@ -15,5 +15,8 @@
 - Styles are created by using `Stylesheet` and must be imported from `react-native` too
 
 ## Packages
-- Icons library `npm install react-icons --save`
+- [To use icons included when an Expo project is started](https://icons.expo.fyi/)
+    - Search icon
+    - Click on the icon and get import and use codes
 - Async storage to small key value storage `npm install @react-native-async-storage/async-storage`
+    - Storage is accesed by Key, and path on device is defined by the library itself.

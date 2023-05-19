@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { BsFillTrashFill } from 'react-icons/bs';
+import { FontAwesome } from '@expo/vector-icons'; 
 
 const Task = (props) => {
 
@@ -15,7 +15,7 @@ const Task = (props) => {
             </View>
             <View style={styles.trashView}>
                 <TouchableOpacity style={styles.trashButton} onPress={deleteTask} hitSlop={{ top: 10, bottom: 10, left: 10, right: 0 }}>
-                    <BsFillTrashFill style={styles.trash} />
+                    <FontAwesome name="trash" size={20} color="black" style={styles.trash}/>
                 </TouchableOpacity>
             </View>
         </View>

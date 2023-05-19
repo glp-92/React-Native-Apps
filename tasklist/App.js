@@ -1,10 +1,8 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView, Linking } from 'react-native';
+//import { StatusBar } from 'expo-status-bar';
+import { StyleSheet, View, TextInput, TouchableOpacity, ScrollView, Text } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useState, useEffect } from 'react';
-import { BiMessageSquareAdd } from 'react-icons/bi';
-import { BsFillCalendar2Fill } from 'react-icons/bs';
-import { AiFillGithub } from 'react-icons/ai';
+import { Entypo, FontAwesome5 } from '@expo/vector-icons';
 
 import Task from './components/Task';
 
@@ -60,7 +58,7 @@ export default function App() {
   return (
     <View style={styles.container}>
       <View style={styles.tasksWrapper}>
-        <BsFillCalendar2Fill style = {styles.calendarIcon}/>
+        <FontAwesome5 name="tasks" size={24} color="black" style = {styles.calendarIcon}/>
         <ScrollView style = {styles.tasks}>
           {taskArr.map((task, index) => (
             <Task key={index} text={task} deleteTask={() => deleteTaskFromList(index)}/>
@@ -74,7 +72,7 @@ export default function App() {
             maxLength={20}
           />
           <TouchableOpacity style = {styles.addButton} title="Añadir" onPress={addTaskToList}>
-            <BiMessageSquareAdd style = {styles.addIcon}/>
+            <Entypo name="add-to-list" size={20} color="black" style = {styles.addIcon}/>
           </TouchableOpacity>
         </View>
       </View>
@@ -96,7 +94,6 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     paddingHorizontal: 20,
     flex: 1,
-    width: '80%',
   },
   calendarIcon: {
     alignSelf: 'center',
