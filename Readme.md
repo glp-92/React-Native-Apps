@@ -16,7 +16,10 @@
 
 ## Packages
 - [To use icons included when an Expo project is started](https://icons.expo.fyi/)
-    - Search icon
-    - Click on the icon and get import and use codes
+    1. Search icon
+    2. Click on the icon and get import and use codes
 - Async storage to small key value storage `npm install @react-native-async-storage/async-storage`
     - Storage is accesed by Key, and path on device is defined by the library itself.
+
+## Deployment
+- `npm install -g eas-cli`

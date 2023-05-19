@@ -72,7 +72,7 @@ export default function App() {
             maxLength={20}
           />
           <TouchableOpacity style = {styles.addButton} title="Añadir" onPress={addTaskToList}>
-            <Entypo name="add-to-list" size={20} color="black" style = {styles.addIcon}/>
+            <Entypo name="add-to-list" size={15} color="black" style = {styles.addIcon}/>
           </TouchableOpacity>
         </View>
       </View>
@@ -84,8 +84,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'rgba(220, 220, 255, 0.5)',
-    paddingHorizontal: 20,
     paddingTop: 40,
+    padding: 20,
     alignItems: 'center',
   },
   tasksWrapper: {
@@ -108,18 +108,18 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   input: {
-    width: '80%',
+    width: '75%',
     height: 50,
     marginRight: 10,
     padding: 10,
     borderRadius: 10,
     backgroundColor: 'rgba(255, 255, 255, 0.5)',
     color: '#1A237E',
+    fontSize: 18,
   },
   addButton: {
     width: '20%',
     height: 50,
-    paddingHorizontal: 10,
     borderRadius: 10,
     borderColor: '#64B5F6',
     backgroundColor: 'rgba(100, 181, 246, 0.2)',
@@ -134,6 +134,7 @@ const styles = StyleSheet.create({
   addItem: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
     backgroundColor: 'rgba(200, 200, 255, 0.5)',
     borderRadius: 10,
     padding: 5,

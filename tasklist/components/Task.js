@@ -8,6 +8,7 @@ const Task = (props) => {
         props.deleteTask();
     };
 
+
     return (
         <View style={styles.itemContainer}>
             <View style={styles.itemLeft}>
@@ -15,7 +16,7 @@ const Task = (props) => {
             </View>
             <View style={styles.trashView}>
                 <TouchableOpacity style={styles.trashButton} onPress={deleteTask} hitSlop={{ top: 10, bottom: 10, left: 10, right: 0 }}>
-                    <FontAwesome name="trash" size={20} color="black" style={styles.trash}/>
+                    <FontAwesome name="trash" size={15} color="black" style={styles.trash}/>
                 </TouchableOpacity>
             </View>
         </View>
@@ -39,7 +40,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
     },
     itemText: {
-      fontSize: 12,
+      fontSize: 18,
       color: '#000',
     },
     trashView: {
