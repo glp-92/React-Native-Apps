@@ -1,27 +1,57 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useRef } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View, Animated, PanResponder } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons'; 
 
 const Task = (props) => {
+  const { id, text, deleteTask } = props;
+  const pan = useRef(new Animated.ValueXY()).current;
+  const initialPosition = { x: 0, y: 0 };
 
-    const deleteTask = () => {
-        props.deleteTask();
-    };
+  const panResponder = useRef(
+    PanResponder.create({
+      onMoveShouldSetPanResponder: () => true,
+      onPanResponderMove: Animated.event([null, { dx: pan.x }], {useNativeDriver: false}),
+      onPanResponderRelease: (event, gestureState) => {
+        const { dx } = gestureState;
+        const isInDeleteZone = Math.abs(dx) > 100;
+        if (isInDeleteZone) {
+          deleteTask(id);
+        }
+        Animated.spring(pan, {
+          toValue: initialPosition,
+          speed: 20,
+        }, {useNativeDriver: false}).start();
+      },
+    })
+  ).current;
 
-
-    return (
-        <View style={styles.itemContainer}>
-            <View style={styles.itemLeft}>
-                <Text style={styles.itemText}>{props.text}</Text>
-            </View>
-            <View style={styles.trashView}>
-                <TouchableOpacity style={styles.trashButton} onPress={deleteTask} hitSlop={{ top: 10, bottom: 10, left: 10, right: 0 }}>
-                    <FontAwesome name="trash" size={15} color="black" style={styles.trash}/>
-                </TouchableOpacity>
-            </View>
+  
+  return (
+    <Animated.View
+      style={{
+        transform: [{ translateX: pan.x }, { translateY: pan.y }],
+      }}
+      {...panResponder.panHandlers}
+    >
+      <View style={styles.itemContainer}>
+        <View style={styles.itemLeft}>
+          <Text style={styles.itemText}>{text}</Text>
         </View>
-    )
-}
+        <View style={styles.trashView}>
+          <TouchableOpacity
+            style={styles.trashButton}
+            onPress={() => deleteTask(id)}
+            hitSlop={{ top: 10, bottom: 10, left: 10, right: 0 }}
+          >
+            <FontAwesome name="trash" size={15} color="black" style={styles.trash} />
+          </TouchableOpacity>
+        </View>
+      </View>
+    </Animated.View>
+  );
+};
+
 
 const styles = StyleSheet.create({
     itemContainer: {

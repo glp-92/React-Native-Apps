@@ -12,6 +12,7 @@ const saveTaskArr = async (list) => {
     // Convierte el array de strings en formato JSON antes de almacenarlo
     const jsonList = JSON.stringify(list);
     await AsyncStorage.setItem('taskAPPList', jsonList);
+    console.log(list);
     console.log('Lista guardada exitosamente');
   } catch (error) {
     console.log('Error al guardar la lista:', error);
@@ -49,10 +50,12 @@ export default function App() {
   }
 
   const deleteTaskFromList = (index) => {
-    const updatedTasks = [...taskArr];
-    updatedTasks.splice(index, 1);
-    setTaskArr(updatedTasks);
-    saveTaskArr(updatedTasks);
+    setTaskArr(prevTaskArr => {
+      const updatedTasks = [...prevTaskArr];
+      updatedTasks.splice(index, 1);
+      saveTaskArr(updatedTasks);
+      return updatedTasks;
+    });
   };
 
   return (
@@ -61,7 +64,7 @@ export default function App() {
         <FontAwesome5 name="tasks" size={24} color="black" style = {styles.calendarIcon}/>
         <ScrollView style = {styles.tasks}>
           {taskArr.map((task, index) => (
-            <Task key={index} text={task} deleteTask={() => deleteTaskFromList(index)}/>
+            <Task key={index} id = {index} text={task} deleteTask={() => deleteTaskFromList(index)}/>
           ))}
         </ScrollView>
         <View style = {styles.addItem}>
