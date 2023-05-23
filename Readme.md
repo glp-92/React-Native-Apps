@@ -37,3 +37,10 @@
     This command is using the tier account you're using on Expo
 6. On Linux, it's possible to build locally the app `eas build --local -p android --profile preview`
 
+## Android Studio Emulate
+1. Disable HyperV on Windows => Windows Features => Search HyperV and uncheck it
+2. Install [Android Studio](https://developer.android.com/studio)
+3. Run the simulator on Android Studio => Tools => Device Manager and run the simulator
+4. `expo start -c` to delete cached data and choose Android
+5. First time of launch, expo will be installed on simulator
+    - If it doesn't work, when `expo start -c` command, type `?` and `shift+a` to select device or emulator and choose the emulator.

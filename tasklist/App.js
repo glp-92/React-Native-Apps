@@ -1,5 +1,5 @@
 //import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View, TextInput, TouchableOpacity, ScrollView, Text } from 'react-native';
+import { StyleSheet, View, TextInput, TouchableOpacity, ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useState, useEffect } from 'react';
 import { Entypo, FontAwesome5 } from '@expo/vector-icons';
@@ -12,8 +12,8 @@ const saveTaskArr = async (list) => {
     // Convierte el array de strings en formato JSON antes de almacenarlo
     const jsonList = JSON.stringify(list);
     await AsyncStorage.setItem('taskAPPList', jsonList);
-    console.log(list);
-    console.log('Lista guardada exitosamente');
+    /*console.log(list);
+    console.log('Lista guardada exitosamente');*/
   } catch (error) {
     console.log('Error al guardar la lista:', error);
   }

@@ -10,7 +10,10 @@ const Task = (props) => {
 
   const panResponder = useRef(
     PanResponder.create({
-      onMoveShouldSetPanResponder: () => true,
+      onMoveShouldSetPanResponder: (evt, gestureState) => {
+        //return true if user is swiping, return false if it's a single click
+        return !(gestureState.dx === 0 && gestureState.dy === 0)                  
+      },
       onPanResponderMove: Animated.event([null, { dx: pan.x }], {useNativeDriver: false}),
       onPanResponderRelease: (event, gestureState) => {
         const { dx } = gestureState;
@@ -21,7 +24,8 @@ const Task = (props) => {
         Animated.spring(pan, {
           toValue: initialPosition,
           speed: 20,
-        }, {useNativeDriver: false}).start();
+          useNativeDriver: false
+        },).start();
       },
     })
   ).current;
@@ -87,7 +91,6 @@ const styles = StyleSheet.create({
     },
     trash: {
       color: 'rgba(30, 30, 255, 0.8)',
-      opacity: 0.8,
     },
   });
 
