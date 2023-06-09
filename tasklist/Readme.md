@@ -7,4 +7,6 @@ Simple tasklist that uses async storage to store small amount of data.
 2. Delete tasks by pressing the `bin` icon or drag aside the task
 
 ### Libraries
-`npm install @react-native-async-storage/async-storage`
+```
+npm install @react-native-async-storage/async-storage
+```

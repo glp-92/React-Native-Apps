@@ -7,5 +7,7 @@ Simple QR and barcode scanner using `expo`
 2. Focus camera on a code to scan and alerts with the data
 
 ### Libraries
-`npx expo install expo-camera`
-`npx expo install expo-barcode-scanner`
+```
+npx expo install expo-camera
+npx expo install expo-barcode-scanner
+```
