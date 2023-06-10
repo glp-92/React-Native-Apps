@@ -1,50 +1,71 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { Camera } from 'expo-camera';
+import { Text, View, StyleSheet, Button } from 'react-native';
+import { BarCodeScanner } from 'expo-barcode-scanner';
 
 export default function App() {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
+  const [barcodePositions, setBarcodePositions] = useState([]);
 
   useEffect(() => {
-    (async () => {
-      const { status } = await Camera.requestCameraPermissionsAsync();
+    const getBarCodeScannerPermissions = async () => {
+      const { status } = await BarCodeScanner.requestPermissionsAsync();
       setHasPermission(status === 'granted');
-    })();
+    };
+
+    getBarCodeScannerPermissions();
   }, []);
 
-  const handleBarCodeScanned = ({ type, data }) => {
+  const handleBarCodeScanned = async ({ type, data, bounds }) => {
     setScanned(true);
-    alert(`Tipo de código: ${type}\nDatos: ${data}`);
-  };
-
-  const handleScanAgain = () => {
-    setScanned(false);
+    setBarcodePositions([{ type, data, bounds }]);
+    setTimeout(() => {
+      setBarcodePositions([]);
+    }, 500); // Eliminar el código después de 1 segundo (1000 ms)*/
   };
 
   if (hasPermission === null) {
-    return <View />;
+    return <Text>Requesting for camera permission</Text>;
   }
   if (hasPermission === false) {
-    return <Text>No se ha otorgado permiso para acceder a la cámara.</Text>;
+    return <Text>No access to camera</Text>;
   }
 
   return (
     <View style={styles.container}>
-      <Camera
-        style={styles.camera}
-        type={Camera.Constants.Type.back}
+      <BarCodeScanner
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-      >
-        <View style={styles.layer} />
-        <TouchableOpacity
+        style={styles.scanner}
+        cameraProps={{ autoFocus: 'on', focusDepth: 0, focusMode: 'auto' }}
+      />
+      {scanned && (
+        <Button
           style={styles.scanAgainButton}
-          onPress={handleScanAgain}
-          disabled={!scanned}
-        >
-          <Text style={styles.scanAgainText}>Escanear de nuevo</Text>
-        </TouchableOpacity>
-      </Camera>
+          title={'Tap to Scan Again'}
+          onPress={async () => {
+            setScanned(false);
+            setBarcodePositions([]);
+          }}
+        />
+      )}
+        <View style={styles.barcodePositions}>
+        {barcodePositions.map((barcode, index) => (
+          <View key={index}>
+            <Text style={{ color: 'white' }}>{barcode.data}</Text>
+            <View
+              style={[
+                styles.barcodeRect,
+                {
+                  width: barcode.bounds.size.width,
+                  height: barcode.bounds.size.height,
+                  left: barcode.bounds.origin.x,
+                  top: barcode.bounds.origin.y,
+                },
+              ]}
+            />
+          </View>
+        ))}
+      </View>
     </View>
   );
 }
@@ -55,30 +76,21 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  camera: {
-    width: '100%',
-    height: '100%',
-  },
-  layer: {
-    flex: 1,
-    backgroundColor: 'transparent',
-    justifyContent: 'center',
-    alignItems: 'center',
+  scanner: {
+    ...StyleSheet.absoluteFillObject,
   },
   scanAgainButton: {
-    position: 'absolute',
-    bottom: 32,
-    left: 32,
-    right: 32,
-    backgroundColor: '#ffffff',
-    paddingVertical: 12,
-    borderRadius: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
-    opacity: 0.8,
+    margin: 100,
   },
-  scanAgainText: {
-    fontSize: 16,
-    fontWeight: 'bold',
+  barcodePositions: {
+    marginTop: 20,
+    position: 'absolute',
+    left: 0,
+    top: 0,
+  },
+  barcodeRect: {
+    position: 'absolute',
+    borderWidth: 2,
+    borderColor: 'green',
   },
 });
