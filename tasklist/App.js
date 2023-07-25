@@ -1,32 +1,22 @@
 //import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View, TextInput, TouchableOpacity, ScrollView } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { StyleSheet, View, TextInput, TouchableOpacity, ScrollView, useWindowDimensions } from 'react-native';
 import { useState, useEffect } from 'react';
-import { Entypo, FontAwesome5 } from '@expo/vector-icons';
-
-import Task from './components/Task';
-
-
-const saveTaskArr = async (list) => {
-  try {
-    // Convierte el array de strings en formato JSON antes de almacenarlo
-    const jsonList = JSON.stringify(list);
-    await AsyncStorage.setItem('taskAPPList', jsonList);
-    /*console.log(list);
-    console.log('Lista guardada exitosamente');*/
-  } catch (error) {
-    console.log('Error al guardar la lista:', error);
-  }
-};
+import { Entypo } from '@expo/vector-icons';
+import TaskList from './components/TaskList';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 export default function App() {
-  const [inputTask, setInputTask] = useState("");
   const [taskArr, setTaskArr] = useState([]);
+  const [inputTask, setInputTask] = useState("");
+  useEffect(() => {
+    fetchStoredTaskList();
+  }, []);
 
-  const fetchStoredList = async () => {
+
+  const fetchStoredTaskList = async () => {
     try {
-      const storedList = await AsyncStorage.getItem('taskAPPList');
+      const storedList = await AsyncStorage.getItem("taskAPPList");
       if (storedList !== null) {
         const parsedList = JSON.parse(storedList);
         setTaskArr(parsedList);
@@ -36,37 +26,36 @@ export default function App() {
     }
   };
 
-  useEffect(() => {
-    fetchStoredList();
-  }, []);
+
+  const saveTaskList = async (list) => {
+    try {
+      // Convierte el array de strings en formato JSON antes de almacenarlo
+      const jsonList = JSON.stringify(list);
+      await AsyncStorage.setItem("taskAPPList", jsonList);
+      /*console.log(list);
+      console.log('Lista guardada exitosamente');*/
+    } catch (error) {
+      console.log('Error al guardar la lista:', error);
+    }
+  };
+
 
   const addTaskToList = () => {
     if ((inputTask) != "") {
       const updatedTasks = [...taskArr, inputTask]
       setTaskArr(updatedTasks);
-      saveTaskArr(updatedTasks);
+      saveTaskList(updatedTasks);
       setInputTask("");
     }
   }
 
-  const deleteTaskFromList = (index) => {
-    setTaskArr(prevTaskArr => {
-      const updatedTasks = [...prevTaskArr];
-      updatedTasks.splice(index, 1);
-      saveTaskArr(updatedTasks);
-      return updatedTasks;
-    });
-  };
 
   return (
     <View style={styles.container}>
       <View style={styles.tasksWrapper}>
-        <FontAwesome5 name="tasks" size={24} color="black" style = {styles.calendarIcon}/>
-        <ScrollView style = {styles.tasks}>
-          {taskArr.map((task, index) => (
-            <Task key={index} id = {index} text={task} deleteTask={() => deleteTaskFromList(index)}/>
-          ))}
-        </ScrollView>
+
+        <TaskList id = "taskAPPList" saveTaskList = {saveTaskList} setTaskArr = {setTaskArr} taskList = {taskArr}/>
+
         <View style = {styles.addItem}>
           <TextInput
             style={styles.input}
@@ -78,17 +67,19 @@ export default function App() {
             <Entypo name="add-to-list" size={15} color="black" style = {styles.addIcon}/>
           </TouchableOpacity>
         </View>
+
       </View>
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'rgba(220, 220, 255, 0.5)',
     paddingTop: 40,
-    padding: 20,
+    padding: 0,
     alignItems: 'center',
   },
   tasksWrapper: {
@@ -144,4 +135,3 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
 });
-
