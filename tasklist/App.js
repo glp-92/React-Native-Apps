@@ -8,7 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function App() {
   const [taskArr, setTaskArr] = useState([]);
-  const [inputTask, setInputTask] = useState("");
+  const [inputTask, setInputTask] = useState([]);
   useEffect(() => {
     fetchStoredTaskList();
   }, []);
@@ -42,10 +42,11 @@ export default function App() {
 
   const addTaskToList = () => {
     if ((inputTask) != "") {
-      const updatedTasks = [...taskArr, inputTask]
+      const updatedTasks = [...taskArr, [inputTask, 0]]
       setTaskArr(updatedTasks);
       saveTaskList(updatedTasks);
       setInputTask("");
+      console.log(taskArr);
     }
   }
 

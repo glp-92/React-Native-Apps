@@ -19,7 +19,7 @@ const TaskList = (props) => {
         <View style={styles.tasksWrapper}>
             <ScrollView style = {styles.tasks}>
                 {props.taskList.map((task, index) => (
-                <Task key={index} id = {index} text={task} deleteTask={() => deleteTaskFromList(index)}/>
+                <Task key={index} id = {index} text={task[0]} deleteTask={() => deleteTaskFromList(index)}/>
                 ))}
             </ScrollView>
         </View>
