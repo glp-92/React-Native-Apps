@@ -1,12 +1,13 @@
 import React from 'react';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, Animated, PanResponder } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons'; 
 
 const Task = (props) => {
-  const { id, text, deleteTask } = props;
+  const { id, text, initialState, deleteTask, setTask } = props;
   const pan = useRef(new Animated.ValueXY()).current;
   const initialPosition = { x: 0, y: 0 };
+  const [state, setState] = useState(initialState);
 
   const panResponder = useRef(
     PanResponder.create({
@@ -30,6 +31,11 @@ const Task = (props) => {
     })
   ).current;
 
+  const handleStateChange = () => {
+    setTask(id);
+    setState(!state);
+  }
+
   
   return (
     <Animated.View
@@ -39,6 +45,15 @@ const Task = (props) => {
       {...panResponder.panHandlers}
     >
       <View style={styles.itemContainer}>
+        <View style={styles.trashView}>
+          <TouchableOpacity
+            style={styles.trashButton}
+            onPress={handleStateChange}
+            hitSlop={{ top: 10, bottom: 10, left: 10, right: 0 }}
+          >
+          </TouchableOpacity>
+          {state && <FontAwesome name="trash" size={15} color="black" style={styles.trash} />}
+        </View>
         <View style={styles.itemLeft}>
           <Text style={styles.itemText}>{text}</Text>
         </View>

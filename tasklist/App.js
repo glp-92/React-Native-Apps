@@ -24,7 +24,7 @@ export default function App() {
     } catch (error) {
       console.log('Error al obtener la lista:', error);
     }
-  };
+  }; 
 
 
   const saveTaskList = async (list) => {
@@ -46,7 +46,6 @@ export default function App() {
       setTaskArr(updatedTasks);
       saveTaskList(updatedTasks);
       setInputTask("");
-      console.log(taskArr);
     }
   }
 
