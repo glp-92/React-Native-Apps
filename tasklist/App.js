@@ -51,7 +51,6 @@ export default function App() {
 
 
   return (
-    <View style={styles.container}>
       <View style={styles.tasksWrapper}>
 
         <TaskList id = "taskAPPList" saveTaskList = {saveTaskList} setTaskArr = {setTaskArr} taskList = {taskArr}/>
@@ -61,7 +60,7 @@ export default function App() {
             style={styles.input}
             onChangeText={setInputTask}
             value={inputTask}
-            maxLength={20}
+            maxLength={30}
           />
           <TouchableOpacity style = {styles.addButton} title="Añadir" onPress={addTaskToList}>
             <Entypo name="add-to-list" size={15} color="black" style = {styles.addIcon}/>
@@ -69,7 +68,6 @@ export default function App() {
         </View>
 
       </View>
-    </View>
   );
 }
 

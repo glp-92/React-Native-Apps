@@ -1,12 +1,9 @@
-import { useState, useEffect } from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
 
 import Task from './Task';
 
 
 const TaskList = (props) => {
-
-    console.log(props);
 
     const deleteTaskFromList = (index) => {
         props.setTaskArr(prevTaskArr => {

@@ -3,6 +3,7 @@ import { useRef, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, Animated, PanResponder } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons'; 
 
+
 const Task = (props) => {
   const { id, text, initialState, deleteTask, setTask } = props;
   const pan = useRef(new Animated.ValueXY()).current;
@@ -36,7 +37,7 @@ const Task = (props) => {
     setState(!state);
   }
 
-  
+  // {state && <FontAwesome name="trash" size={15} color="black" style={styles.trash} />}
   return (
     <Animated.View
       style={{
@@ -45,16 +46,14 @@ const Task = (props) => {
       {...panResponder.panHandlers}
     >
       <View style={styles.itemContainer}>
-        <View style={styles.trashView}>
-          <TouchableOpacity
-            style={styles.trashButton}
-            onPress={handleStateChange}
-            hitSlop={{ top: 10, bottom: 10, left: 10, right: 0 }}
-          >
-          </TouchableOpacity>
-          {state && <FontAwesome name="trash" size={15} color="black" style={styles.trash} />}
-        </View>
-        <View style={styles.itemLeft}>
+        <TouchableOpacity
+          style={styles.touchableLeft}
+          onPress={handleStateChange}
+          hitSlop={{ top: 10, bottom: 10, left: 10, right: 0 }}
+        >
+          {state && <FontAwesome name="check" size={20} color="green" />}
+        </TouchableOpacity>
+        <View style = {styles.textContainer}>
           <Text style={styles.itemText}>{text}</Text>
         </View>
         <View style={styles.trashView}>
@@ -74,22 +73,28 @@ const Task = (props) => {
 
 const styles = StyleSheet.create({
     itemContainer: {
+      flexWrap: 'wrap',
       flexDirection: 'row',
       alignItems: 'center',
+      justifyContent: 'space-between',
       backgroundColor: 'rgba(200, 200, 255, 0.5)',
       borderRadius: 10,
       padding: 5,
       marginBottom: 10,
+      maxHeight: 200,
     },
-    itemLeft: {
-        flex: 2,
-        height: 50,
-        marginRight: 10,
-        padding: 10,
-        borderRadius: 10,
+    touchableLeft: {
+      borderRadius: 20, // Ajusta el valor según el tamaño del botón circular deseado
+      backgroundColor: 'rgba(100, 181, 246, 0.2)',
+      padding: 15,
+    },
+    textContainer: {
+      flex: 2,
+      paddingLeft: 10,
     },
     itemText: {
-      fontSize: 18,
+      flexWrap: 'wrap',
+      fontSize: 16,
       color: '#000',
     },
     trashView: {
