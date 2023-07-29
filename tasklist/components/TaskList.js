@@ -41,13 +41,12 @@ const TaskList = (props) => {
 const styles = StyleSheet.create({
     tasksWrapper: {
         backgroundColor: 'rgba(178, 218, 250, 0.5)',
-        borderRadius: 10,
         paddingTop: 20,
-        paddingHorizontal: 20,
+        paddingHorizontal: 10,
         flex: 1,
       },
       tasks: {
-        marginBottom: 16,
+        marginBottom: 20,
       },
 });
 

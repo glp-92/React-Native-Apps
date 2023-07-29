@@ -73,18 +73,9 @@ export default function App() {
 
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'rgba(220, 220, 255, 0.5)',
-    paddingTop: 40,
-    padding: 0,
-    alignItems: 'center',
-  },
   tasksWrapper: {
     backgroundColor: 'rgba(178, 218, 250, 0.5)',
-    borderRadius: 10,
     paddingTop: 20,
-    paddingHorizontal: 20,
     flex: 1,
   },
   calendarIcon: {
@@ -95,9 +86,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     textTransform: 'uppercase',
     opacity: 0.7,
-  },
-  tasks: {
-    marginBottom: 16,
   },
   input: {
     width: '75%',
@@ -128,8 +116,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     backgroundColor: 'rgba(200, 200, 255, 0.5)',
-    borderRadius: 10,
-    padding: 5,
-    marginBottom: 10,
+    padding: 10,
   },
 });

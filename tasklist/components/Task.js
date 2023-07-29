@@ -51,20 +51,18 @@ const Task = (props) => {
           onPress={handleStateChange}
           hitSlop={{ top: 10, bottom: 10, left: 10, right: 0 }}
         >
-          {state && <FontAwesome name="check" size={20} color="green" />}
+          {state ? <FontAwesome name="check" size={20} color="green" /> : null}
         </TouchableOpacity>
         <View style = {styles.textContainer}>
           <Text style={styles.itemText}>{text}</Text>
         </View>
-        <View style={styles.trashView}>
-          <TouchableOpacity
-            style={styles.trashButton}
-            onPress={() => deleteTask(id)}
-            hitSlop={{ top: 10, bottom: 10, left: 10, right: 0 }}
-          >
-            <FontAwesome name="trash" size={15} color="black" style={styles.trash} />
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity
+          style={styles.touchableRight}
+          onPress={() => deleteTask(id)}
+          hitSlop={{ top: 10, bottom: 10, left: 10, right: 0 }}
+        >
+          <FontAwesome name="trash" size={15} color="black" style={styles.trash} />
+        </TouchableOpacity>
       </View>
     </Animated.View>
   );
@@ -81,15 +79,20 @@ const styles = StyleSheet.create({
       borderRadius: 10,
       padding: 5,
       marginBottom: 10,
-      maxHeight: 200,
+      maxHeight: 100,
     },
     touchableLeft: {
-      borderRadius: 20, // Ajusta el valor según el tamaño del botón circular deseado
+      borderRadius: 10, // Ajusta el valor según el tamaño del botón circular deseado
       backgroundColor: 'rgba(100, 181, 246, 0.2)',
-      padding: 15,
+      padding: 5,
+      flex: 1,
+      aspectRatio: 1,
+      height: '100%',
+      justifyContent: 'center', // Centrar contenido verticalmente
+      alignItems: 'center',
     },
     textContainer: {
-      flex: 2,
+      flex: 5,
       paddingLeft: 10,
     },
     itemText: {
@@ -97,17 +100,16 @@ const styles = StyleSheet.create({
       fontSize: 16,
       color: '#000',
     },
-    trashView: {
-        flex: 1,
-        marginLeft: 10,
-    },
-    trashButton: {
-      height: 50,
+    touchableRight: {
+      borderRadius: 10, // Ajusta el valor según el tamaño del botón circular deseado
       backgroundColor: 'rgba(100, 181, 246, 0.2)',
-      borderRadius: 10,
-      alignSelf: 'stretch',
-      justifyContent: 'center',
+      padding: 5,
+      flex: 1,
+      aspectRatio: 1,
+      height: '100%',
+      justifyContent: 'center', // Centrar contenido verticalmente
       alignItems: 'center',
+      marginLeft: 10,
     },
     trash: {
       color: 'rgba(30, 30, 255, 0.8)',
