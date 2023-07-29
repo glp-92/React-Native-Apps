@@ -3,8 +3,9 @@ import { useRef } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, Animated, PanResponder } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons'; 
 
+
 const Task = (props) => {
-  const { id, text, deleteTask } = props;
+  const { id, text, state, deleteTask, setTask } = props;
   const pan = useRef(new Animated.ValueXY()).current;
   const initialPosition = { x: 0, y: 0 };
 
@@ -30,7 +31,6 @@ const Task = (props) => {
     })
   ).current;
 
-  
   return (
     <Animated.View
       style={{
@@ -39,18 +39,23 @@ const Task = (props) => {
       {...panResponder.panHandlers}
     >
       <View style={styles.itemContainer}>
-        <View style={styles.itemLeft}>
+        <TouchableOpacity
+          style={styles.touchableLeft}
+          onPress={() => setTask(id)}
+          hitSlop={{ top: 10, bottom: 10, left: 10, right: 0 }}
+        >
+          {state ? <FontAwesome name="check" size={25} color="green" /> : null}
+        </TouchableOpacity>
+        <View style = {styles.textContainer}>
           <Text style={styles.itemText}>{text}</Text>
         </View>
-        <View style={styles.trashView}>
-          <TouchableOpacity
-            style={styles.trashButton}
-            onPress={() => deleteTask(id)}
-            hitSlop={{ top: 10, bottom: 10, left: 10, right: 0 }}
-          >
-            <FontAwesome name="trash" size={15} color="black" style={styles.trash} />
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity
+          style={styles.touchableRight}
+          onPress={() => deleteTask(id)}
+          hitSlop={{ top: 10, bottom: 10, left: 10, right: 0 }}
+        >
+          <FontAwesome name="trash" size={20} color="black" style={styles.trash} />
+        </TouchableOpacity>
       </View>
     </Animated.View>
   );
@@ -59,35 +64,45 @@ const Task = (props) => {
 
 const styles = StyleSheet.create({
     itemContainer: {
+      flexWrap: 'wrap',
       flexDirection: 'row',
       alignItems: 'center',
+      justifyContent: 'space-between',
       backgroundColor: 'rgba(200, 200, 255, 0.5)',
       borderRadius: 10,
       padding: 5,
       marginBottom: 10,
+      maxHeight: 100,
     },
-    itemLeft: {
-        flex: 2,
-        height: 50,
-        marginRight: 10,
-        padding: 10,
-        borderRadius: 10,
+    touchableLeft: {
+      borderRadius: 10, // Ajusta el valor según el tamaño del botón circular deseado
+      backgroundColor: 'rgba(100, 181, 246, 0.2)',
+      padding: 5,
+      flex: 1,
+      aspectRatio: 1,
+      height: '100%',
+      justifyContent: 'center', // Centrar contenido verticalmente
+      alignItems: 'center',
+    },
+    textContainer: {
+      flex: 5,
+      paddingLeft: 10,
     },
     itemText: {
-      fontSize: 18,
+      flexWrap: 'wrap',
+      fontSize: 16,
       color: '#000',
     },
-    trashView: {
-        flex: 1,
-        marginLeft: 10,
-    },
-    trashButton: {
-      height: 50,
+    touchableRight: {
+      borderRadius: 10, // Ajusta el valor según el tamaño del botón circular deseado
       backgroundColor: 'rgba(100, 181, 246, 0.2)',
-      borderRadius: 10,
-      alignSelf: 'stretch',
-      justifyContent: 'center',
+      padding: 5,
+      flex: 1,
+      aspectRatio: 1,
+      height: '100%',
+      justifyContent: 'center', // Centrar contenido verticalmente
       alignItems: 'center',
+      marginLeft: 10,
     },
     trash: {
       color: 'rgba(30, 30, 255, 0.8)',

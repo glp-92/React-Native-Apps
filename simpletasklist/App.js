@@ -1,32 +1,22 @@
 //import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View, TextInput, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, View, TextInput, TouchableOpacity, ScrollView, useWindowDimensions } from 'react-native';
+import { useState, useEffect,useCallback } from 'react';
+import { Entypo } from '@expo/vector-icons';
+import TaskList from './components/TaskList';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useState, useEffect } from 'react';
-import { Entypo, FontAwesome5 } from '@expo/vector-icons';
-
-import Task from './components/Task';
-
-
-const saveTaskArr = async (list) => {
-  try {
-    // Convierte el array de strings en formato JSON antes de almacenarlo
-    const jsonList = JSON.stringify(list);
-    await AsyncStorage.setItem('taskAPPList', jsonList);
-    /*console.log(list);
-    console.log('Lista guardada exitosamente');*/
-  } catch (error) {
-    console.log('Error al guardar la lista:', error);
-  }
-};
 
 
 export default function App() {
-  const [inputTask, setInputTask] = useState("");
   const [taskArr, setTaskArr] = useState([]);
+  const [inputTask, setInputTask] = useState("");
+  useEffect(() => {
+    fetchStoredTaskList();
+  }, []);
 
-  const fetchStoredList = async () => {
+
+  const fetchStoredTaskList = async () => {
     try {
-      const storedList = await AsyncStorage.getItem('taskAPPList');
+      const storedList = await AsyncStorage.getItem("taskAPPList");
       if (storedList !== null) {
         const parsedList = JSON.parse(storedList);
         setTaskArr(parsedList);
@@ -34,68 +24,64 @@ export default function App() {
     } catch (error) {
       console.log('Error al obtener la lista:', error);
     }
+  }; 
+
+
+  const saveTaskList = async (list) => {
+    try {
+      // Convierte el array de strings en formato JSON antes de almacenarlo
+      const jsonList = JSON.stringify(list);
+      await AsyncStorage.setItem("taskAPPList", jsonList);
+    } catch (error) {
+      console.log('Error al guardar la lista:', error);
+    }
   };
 
-  useEffect(() => {
-    fetchStoredList();
-  }, []);
 
   const addTaskToList = () => {
     if ((inputTask) != "") {
-      const updatedTasks = [...taskArr, inputTask]
+      const updatedTasks = [...taskArr, [inputTask, 0]]
       setTaskArr(updatedTasks);
-      saveTaskArr(updatedTasks);
+      saveTaskList(updatedTasks);
       setInputTask("");
     }
-  }
+  };
 
-  const deleteTaskFromList = (index) => {
-    setTaskArr(prevTaskArr => {
+  const setStateOfTask = (index) => {
+    setTaskArr((prevTaskArr) => {
       const updatedTasks = [...prevTaskArr];
-      updatedTasks.splice(index, 1);
-      saveTaskArr(updatedTasks);
+      updatedTasks[index][1] = !updatedTasks[index][1];
+      saveTaskList(updatedTasks);
       return updatedTasks;
     });
   };
 
+
   return (
-    <View style={styles.container}>
       <View style={styles.tasksWrapper}>
-        <FontAwesome5 name="tasks" size={24} color="black" style = {styles.calendarIcon}/>
-        <ScrollView style = {styles.tasks}>
-          {taskArr.map((task, index) => (
-            <Task key={index} id = {index} text={task} deleteTask={() => deleteTaskFromList(index)}/>
-          ))}
-        </ScrollView>
+
+        <TaskList style = {styles.tasklist} id = "taskAPPList" saveTaskList = {saveTaskList} setTaskArr = {setTaskArr} setStateOfTask = {setStateOfTask} taskArr = {taskArr}/>
+
         <View style = {styles.addItem}>
           <TextInput
             style={styles.input}
             onChangeText={setInputTask}
             value={inputTask}
-            maxLength={20}
+            maxLength={30}
           />
           <TouchableOpacity style = {styles.addButton} title="Añadir" onPress={addTaskToList}>
             <Entypo name="add-to-list" size={15} color="black" style = {styles.addIcon}/>
           </TouchableOpacity>
         </View>
+
       </View>
-    </View>
   );
 }
 
+
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'rgba(220, 220, 255, 0.5)',
-    paddingTop: 40,
-    padding: 20,
-    alignItems: 'center',
-  },
   tasksWrapper: {
     backgroundColor: 'rgba(178, 218, 250, 0.5)',
-    borderRadius: 10,
-    paddingTop: 20,
-    paddingHorizontal: 20,
     flex: 1,
   },
   calendarIcon: {
@@ -106,9 +92,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     textTransform: 'uppercase',
     opacity: 0.7,
-  },
-  tasks: {
-    marginBottom: 16,
   },
   input: {
     width: '75%',
@@ -139,9 +122,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     backgroundColor: 'rgba(200, 200, 255, 0.5)',
-    borderRadius: 10,
-    padding: 5,
-    marginBottom: 10,
+    padding: 10,
   },
 });
-
