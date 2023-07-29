@@ -61,7 +61,7 @@ const Task = (props) => {
           onPress={() => deleteTask(id)}
           hitSlop={{ top: 10, bottom: 10, left: 10, right: 0 }}
         >
-          <FontAwesome name="trash" size={15} color="black" style={styles.trash} />
+          <FontAwesome name="trash" size={20} color="black" style={styles.trash} />
         </TouchableOpacity>
       </View>
     </Animated.View>

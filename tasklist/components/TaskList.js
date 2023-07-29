@@ -22,10 +22,6 @@ const TaskList = (props) => {
         });
     }
 
-    props.taskList.map((task, index) => ( 
-        console.log(task[1])
-    ));
-
     return (
         <View style={styles.tasksWrapper}>
             <ScrollView style = {styles.tasks}>
