@@ -1,6 +1,6 @@
 //import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View, TextInput, TouchableOpacity, ScrollView, useWindowDimensions } from 'react-native';
-import { useState, useEffect } from 'react';
+import { useState, useEffect,useCallback } from 'react';
 import { Entypo } from '@expo/vector-icons';
 import TaskList from './components/TaskList';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -8,7 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function App() {
   const [taskArr, setTaskArr] = useState([]);
-  const [inputTask, setInputTask] = useState([]);
+  const [inputTask, setInputTask] = useState("");
   useEffect(() => {
     fetchStoredTaskList();
   }, []);
@@ -32,8 +32,6 @@ export default function App() {
       // Convierte el array de strings en formato JSON antes de almacenarlo
       const jsonList = JSON.stringify(list);
       await AsyncStorage.setItem("taskAPPList", jsonList);
-      /*console.log(list);
-      console.log('Lista guardada exitosamente');*/
     } catch (error) {
       console.log('Error al guardar la lista:', error);
     }
@@ -47,13 +45,22 @@ export default function App() {
       saveTaskList(updatedTasks);
       setInputTask("");
     }
-  }
+  };
+
+  const setStateOfTask = (index) => {
+    setTaskArr((prevTaskArr) => {
+      const updatedTasks = [...prevTaskArr];
+      updatedTasks[index][1] = !updatedTasks[index][1];
+      saveTaskList(updatedTasks);
+      return updatedTasks;
+    });
+  };
 
 
   return (
       <View style={styles.tasksWrapper}>
 
-        <TaskList id = "taskAPPList" saveTaskList = {saveTaskList} setTaskArr = {setTaskArr} taskList = {taskArr}/>
+        <TaskList id = "taskAPPList" saveTaskList = {saveTaskList} setTaskArr = {setTaskArr} setStateOfTask = {setStateOfTask} taskArr = {taskArr}/>
 
         <View style = {styles.addItem}>
           <TextInput
@@ -75,7 +82,7 @@ export default function App() {
 const styles = StyleSheet.create({
   tasksWrapper: {
     backgroundColor: 'rgba(178, 218, 250, 0.5)',
-    paddingTop: 20,
+    paddingTop: 40,
     flex: 1,
   },
   calendarIcon: {

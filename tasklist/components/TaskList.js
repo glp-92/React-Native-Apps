@@ -1,32 +1,27 @@
 import { StyleSheet, View, ScrollView } from 'react-native';
+import { useCallback } from 'react';
 
 import Task from './Task';
 
 
 const TaskList = (props) => {
+    const { id, saveTaskList, setTaskArr, setStateOfTask, taskArr} = props;
 
     const deleteTaskFromList = (index) => {
-        props.setTaskArr(prevTaskArr => {
+        setTaskArr(prevTaskArr => {
             const updatedTasks = [...prevTaskArr];
             updatedTasks.splice(index, 1);
-            props.saveTaskList(updatedTasks);
+            saveTaskList(updatedTasks);
+            setTaskArr(updatedTasks);
             return updatedTasks;
         });
     };
 
-    const setStateOfTask = (index) => {
-        props.setTaskArr(prevTaskArr => {
-            prevTaskArr[index][1] = !prevTaskArr[index][1];
-            props.saveTaskList(prevTaskArr);
-            return prevTaskArr;
-        });
-    }
-
     return (
         <View style={styles.tasksWrapper}>
             <ScrollView style = {styles.tasks}>
-                {props.taskList.map((task, index) => (
-                <Task key={index} id = {index} text={task[0]} initialState = {task[1]} deleteTask={() => deleteTaskFromList(index)}  setTask = {() => setStateOfTask(index)}/>
+                {taskArr.map((task, index) => (
+                <Task key={index} id = {index} text = {task[0]} state = {task[1]} deleteTask = {() => deleteTaskFromList(index)}  setTask = {() => setStateOfTask(index)}/>
                 ))}
             </ScrollView>
         </View>
