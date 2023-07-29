@@ -60,7 +60,7 @@ export default function App() {
   return (
       <View style={styles.tasksWrapper}>
 
-        <TaskList id = "taskAPPList" saveTaskList = {saveTaskList} setTaskArr = {setTaskArr} setStateOfTask = {setStateOfTask} taskArr = {taskArr}/>
+        <TaskList style = {styles.tasklist} id = "taskAPPList" saveTaskList = {saveTaskList} setTaskArr = {setTaskArr} setStateOfTask = {setStateOfTask} taskArr = {taskArr}/>
 
         <View style = {styles.addItem}>
           <TextInput
@@ -82,7 +82,6 @@ export default function App() {
 const styles = StyleSheet.create({
   tasksWrapper: {
     backgroundColor: 'rgba(178, 218, 250, 0.5)',
-    paddingTop: 40,
     flex: 1,
   },
   calendarIcon: {

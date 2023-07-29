@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "tasklist",
-    "slug": "tasklist",
+    "name": "simpletasklist",
+    "slug": "simpletasklist",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -22,14 +22,14 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.guill392.tasklist"
+      "package": "com.guill392.simpletasklist"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "e326ce4b-c9a6-4619-a2e7-2786a0b94032"
+        "projectId": "35d3b309-5b15-4d7e-9a2b-11a5dcf6fbb5"
       }
     }
   }

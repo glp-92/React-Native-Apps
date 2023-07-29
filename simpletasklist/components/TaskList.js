@@ -1,5 +1,4 @@
 import { StyleSheet, View, ScrollView } from 'react-native';
-import { useCallback } from 'react';
 
 import Task from './Task';
 
@@ -32,7 +31,7 @@ const TaskList = (props) => {
 const styles = StyleSheet.create({
     tasksWrapper: {
         backgroundColor: 'rgba(178, 218, 250, 0.5)',
-        paddingTop: 20,
+        paddingTop: 60,
         paddingHorizontal: 10,
         flex: 1,
       },
